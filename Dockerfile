@@ -1,10 +1,10 @@
-FROM ubuntu:focal as ct-ng
+FROM ubuntu:jammy as ct-ng
 
 # Install dependencies to build toolchain
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y gcc g++ gperf bison flex texinfo help2man make libncurses5-dev unzip \
-                       python3-dev autoconf automake libtool libtool-bin gawk wget rsync git && \
+                       python3-dev autoconf automake libtool libtool-bin gawk wget rsync git xz-utils bzip2 && \
     apt-get clean autoclean && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
