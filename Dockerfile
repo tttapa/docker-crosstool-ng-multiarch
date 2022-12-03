@@ -11,14 +11,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
-# Install autoconf
-RUN wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz -O- | tar xz && \
-    cd autoconf-2.71 && \
-    ./configure --prefix=/usr/local && \
-    make -j$(nproc) && \
-    make install && \
-    autoconf --version
-
 # Add a user called `develop` and add him to the sudo group
 RUN useradd -m develop && \
     echo "develop:develop" | chpasswd && \
@@ -26,6 +18,16 @@ RUN useradd -m develop && \
 
 USER develop
 WORKDIR /home/develop
+
+# Install autoconf
+RUN wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz -O- | tar xz && \
+    cd autoconf-2.71 && \
+    ./configure --prefix=/home/develop/.local && \
+    make -j$(nproc) && \
+    make install && \
+    cd .. && \
+    rm -rf autoconf-2.71
+ENV PATH=/home/develop/.local/bin:$PATH
 
 # Download and install the latest version of crosstool-ng
 RUN git clone -b master --single-branch --depth 1 \
