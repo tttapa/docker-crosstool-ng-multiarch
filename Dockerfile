@@ -30,8 +30,8 @@ RUN wget https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.gz -O- | tar xz && \
 ENV PATH=/home/develop/.local/bin:$PATH
 
 # Download and install the latest version of crosstool-ng
-RUN git clone -b updates --single-branch --depth 1 \
-        https://github.com/cpackham/crosstool-ng.git
+RUN git clone -b master --single-branch --depth 1 \
+        https://github.com/crosstool-ng/crosstool-ng.git
 WORKDIR /home/develop/crosstool-ng
 RUN git show --summary && \
     ./bootstrap && \
